@@ -2,6 +2,15 @@
 
 An anti-**quishing** (QR-code phishing) app. Stock phone cameras decode a QR code and open the link immediately. This app adds a safety check in between: it decodes the QR code, checks the URL against **VirusTotal**, and shows a clear **Safe** or **Malicious** verdict *before* you decide to open it.
 
+## Try it (no computer needed)
+
+When the demo is running, you'll get two links or QR codes:
+
+- 🌐 **Website**: open the link in any phone or computer browser. Paste a URL into **"Scan a new URL"** to check it and see the scan history. No app or account needed.
+- 📱 **Phone app**: install **Expo Go** ([App Store](https://apps.apple.com/app/expo-go/id982107779) / [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent)), then scan the app QR code. On iPhone, use the Camera app and tap "Open in Expo Go".
+
+> The demo runs from the developer's computer, so the links only work while it's online.
+
 ## Features
 
 - **Scanner (mobile)**: scan QR codes with the live camera or from a photo in your gallery.
@@ -49,7 +58,9 @@ QR code → Mobile app (decode URL) → POST /api/scan → Backend
     └── src/screens/QRScannerScreen.js
 ```
 
-## Getting started
+## Run it yourself (for developers)
+
+This section is only for people who want to run their own copy on a computer. To just try the app, see [Try it](#try-it-no-computer-needed).
 
 ### Requirements
 
@@ -92,13 +103,20 @@ The dev server forwards `/api` requests to the backend on port 3000.
 
 ### 3. Mobile app
 
+The phone needs your computer's address on the Wi-Fi network (not `localhost`). Find it first:
+
+- **macOS:** `ipconfig getifaddr en0`
+- **Windows:** `ipconfig`, then look for "IPv4 Address" (e.g. `192.168.1.42`)
+
+Then start the app, using your own address:
+
 ```bash
 cd mobile
 npm install
-EXPO_PUBLIC_API_URL="http://<your-computer-LAN-IP>:3000" npx expo start
+EXPO_PUBLIC_API_URL="http://192.168.1.42:3000" npx expo start
 ```
 
-Find your LAN IP with `ipconfig getifaddr en0` (macOS) or `ipconfig` (Windows). Your phone and computer must be on the same Wi-Fi. Scan the QR code shown in the terminal with Expo Go (Android) or the Camera app (iPhone).
+Connect your phone to the **same Wi-Fi** as your computer, then scan the QR code in the terminal: with the **Camera** app on iPhone, or inside **Expo Go** on Android.
 
 ## API
 
