@@ -1,0 +1,15 @@
+node_modules/
+.env
+
+# Sub-project node_modules
+mobile/node_modules/
+dashboard/node_modules/
+dashboard/.env
+mobile/.env
+
+# OS / tool files
+.DS_Store
+mobile/.expo/
+dashboard/dist/
+.claude/
+CLAUDE.md

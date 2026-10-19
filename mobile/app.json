@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "ScamSite Defender",
+    "slug": "scamsite-defender",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.scamsitedefender.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "ScamSite Defender uses your camera to scan QR codes and verify the URL is safe before you open it.",
+        "NSPhotoLibraryUsageDescription": "ScamSite Defender reads QR codes from your photo library so you can verify a URL before opening it."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#111827"
+      },
+      "package": "com.scamsitedefender.app",
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "ScamSite Defender uses your camera to scan QR codes and verify the URL is safe before you open it."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "ScamSite Defender reads QR codes from your photo library so you can verify a URL before opening it."
+        }
+      ],
+      "expo-status-bar"
+    ]
+  }
+}
