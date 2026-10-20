@@ -11,7 +11,7 @@ An anti-**quishing** (QR-code phishing) app. Stock phone cameras decode a QR cod
 | 🖥️ **Host** (sharing the demo) | Yes | [Share it with phone users](#5-share-it-with-phone-users-temporary-public-links) |
 | 💻 **Developer** (own copy) | Yes | [Run it yourself](#run-it-yourself-for-developers) |
 
-> Phone users connect to the host's computer, so the links only work while the host's computer is **on, awake, and online**.
+> 💡 **Live demo:** the demo runs on the project owner's computer. Links are shared by [@hiopeem](https://github.com/hiopeem) and only work while that computer is **on, awake, and online**. To use it anytime, run your own copy (see [Run it yourself](#run-it-yourself-for-developers)).
 
 ### iPhone
 
