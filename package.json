@@ -5,7 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "setup": "npm install && npm install --prefix dashboard && npm install --prefix mobile",
+    "dev:all": "concurrently -n api,web -c blue,green \"npm start\" \"npm --prefix dashboard run dev\""
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -15,6 +17,7 @@
     "mongoose": "^8.4.1"
   },
   "devDependencies": {
+    "concurrently": "^9.2.5",
     "nodemon": "^3.1.4"
   },
   "engines": {

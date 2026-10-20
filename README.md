@@ -2,14 +2,32 @@
 
 An anti-**quishing** (QR-code phishing) app. Stock phone cameras decode a QR code and open the link immediately. This app adds a safety check in between: it decodes the QR code, checks the URL against **VirusTotal**, and shows a clear **Safe** or **Malicious** verdict *before* you decide to open it.
 
-## Try it (no computer needed)
+## Quick guide: what do I need to do?
 
-When the demo is running, you'll get two links or QR codes:
+| You are... | Need a computer? | What to do |
+|---|---|---|
+| 📱 **iPhone user** | No | [Try it on iPhone](#iphone) |
+| 🤖 **Android user** | No | [Try it on Android](#android) |
+| 🖥️ **Host** (sharing the demo) | Yes | [Share it with phone users](#5-share-it-with-phone-users-temporary-public-links) |
+| 💻 **Developer** (own copy) | Yes | [Run it yourself](#run-it-yourself-for-developers) |
 
-- 🌐 **Website**: open the link in any phone or computer browser. Paste a URL into **"Scan a new URL"** to check it and see the scan history. No app or account needed.
-- 📱 **Phone app**: install **Expo Go** ([App Store](https://apps.apple.com/app/expo-go/id982107779) / [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent)), then scan the app QR code. On iPhone, use the Camera app and tap "Open in Expo Go".
+> Phone users connect to the host's computer, so the links only work while the host's computer is **on, awake, and online**.
 
-> The demo runs from the developer's computer, so the links only work while it's online.
+### iPhone
+
+- 🌐 **Website**: open the shared website link in Safari, paste a URL into **"Scan a new URL"**, and get a Safe or Malicious verdict. No app or account needed.
+- 📱 **App**
+  1. Install **Expo Go** from the [App Store](https://apps.apple.com/app/expo-go/id982107779).
+  2. Scan the app QR code with the **Camera** app, then tap **"Open in Expo Go"**.
+  3. Allow camera access, then scan any QR code.
+
+### Android
+
+- 🌐 **Website**: open the shared website link in Chrome and use it the same way.
+- 📱 **App**
+  1. Install **Expo Go** from [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent).
+  2. Open Expo Go and scan the app QR code **inside Expo Go**.
+  3. Allow camera access, then scan any QR code.
 
 ## Features
 
@@ -60,7 +78,7 @@ QR code → Mobile app (decode URL) → POST /api/scan → Backend
 
 ## Run it yourself (for developers)
 
-This section is only for people who want to run their own copy on a computer. To just try the app, see [Try it](#try-it-no-computer-needed).
+This section is only for people who want to run their own copy on a computer. To just try the app on a phone, see the [Quick guide](#quick-guide-what-do-i-need-to-do).
 
 ### Requirements
 
@@ -69,14 +87,21 @@ This section is only for people who want to run their own copy on a computer. To
 - A free [VirusTotal](https://www.virustotal.com) API key
 - [Expo Go](https://expo.dev/go) on your phone (for the mobile app)
 
-### 1. Backend
+### 1. Install everything (one command)
 
 ```bash
-npm install
+npm run setup
+```
+
+This installs the packages for the backend, dashboard, and mobile app.
+
+### 2. Add your settings
+
+```bash
 cp .env.example .env
 ```
 
-Fill in `.env`:
+Open `.env` and fill in:
 
 ```
 MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/scamsite
@@ -87,21 +112,18 @@ CORS_ORIGIN=http://localhost:5173
 
 > In MongoDB Atlas, add your IP (or `0.0.0.0/0`) under **Network Access → IP Access List**.
 
-```bash
-npm start            # → http://localhost:3000
-```
-
-### 2. Dashboard
+### 3. Start the backend + dashboard (one command)
 
 ```bash
-cd dashboard
-npm install
-npm run dev          # → http://localhost:5173
+npm run dev:all
 ```
 
-The dev server forwards `/api` requests to the backend on port 3000.
+- Backend → http://localhost:3000
+- Dashboard → http://localhost:5173 (it forwards `/api` requests to the backend)
 
-### 3. Mobile app
+Press `Ctrl + C` to stop both.
+
+### 4. Start the mobile app (in a second terminal)
 
 The phone needs your computer's address on the Wi-Fi network (not `localhost`). Find it first:
 
@@ -112,11 +134,33 @@ Then start the app, using your own address:
 
 ```bash
 cd mobile
-npm install
 EXPO_PUBLIC_API_URL="http://192.168.1.42:3000" npx expo start
 ```
 
 Connect your phone to the **same Wi-Fi** as your computer, then scan the QR code in the terminal: with the **Camera** app on iPhone, or inside **Expo Go** on Android.
+
+### 5. Share it with phone users (temporary public links)
+
+To let people on **any network** try it from their phone, with no computer of their own, expose your running app with free [Cloudflare quick tunnels](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/).
+
+1. Install `cloudflared` (macOS: `brew install cloudflared`).
+2. Start the backend + dashboard: `npm run dev:all`
+3. In two more terminals, open the tunnels:
+   ```bash
+   cloudflared tunnel --url http://localhost:5173   # website + API
+   cloudflared tunnel --url http://localhost:8081   # phone app
+   ```
+   Each one prints a link like `https://random-words.trycloudflare.com`.
+4. Start the phone app using those links (log in first with `npx expo login`):
+   ```bash
+   cd mobile
+   EXPO_PUBLIC_API_URL="https://<website-link>" EXPO_PACKAGER_PROXY_URL="https://<app-link>" npx expo start
+   ```
+5. Share:
+   - 🌐 **Website**: `https://<website-link>`, which opens in any browser
+   - 📱 **Phone app**: `exps://<app-link>`, which opens in Expo Go
+
+> ⚠️ The links only work while your computer is on, awake, and running everything. They change every time the tunnels restart. Anyone with the link can use it, and each new URL checked uses your VirusTotal quota.
 
 ## API
 
