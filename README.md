@@ -98,7 +98,8 @@ This installs the packages for the backend, dashboard, and mobile app.
 ### 2. Add your settings
 
 ```bash
-cp .env.example .env
+cp .env.example .env        # macOS / Linux
+copy .env.example .env      # Windows
 ```
 
 Open `.env` and fill in:
@@ -134,7 +135,12 @@ Then start the app, using your own address:
 
 ```bash
 cd mobile
+
+# macOS / Linux
 EXPO_PUBLIC_API_URL="http://192.168.1.42:3000" npx expo start
+
+# Windows (PowerShell)
+$env:EXPO_PUBLIC_API_URL="http://192.168.1.42:3000"; npx expo start
 ```
 
 Connect your phone to the **same Wi-Fi** as your computer, then scan the QR code in the terminal: with the **Camera** app on iPhone, or inside **Expo Go** on Android.
