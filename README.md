@@ -183,3 +183,7 @@ To let people on **any network** try it from their phone, with no computer of th
 - **Rate limit**: the free VirusTotal key allows about 4 new lookups per minute. Cached URLs are unlimited.
 - **No background interception**: phones don't let apps intercept other apps' traffic, so this is a manual check-before-you-open tool.
 - **Test URL**: `http://malware.testing.google.test/testing/malware/` is Google's harmless test URL and should come back **Malicious**.
+
+## License
+
+Released under the [MIT License](LICENSE).
